@@ -4465,69 +4465,14 @@ return hooks;
 
 })(this);
 
-// // (function(){
 
-// 	console.log("App is running!");
-
-// 	const now = new Date();
-
-// 	// Clock constructor 
-// 	function Clock(mySession, myBreak) {
-// 		console.log(this);
-
-// 		this.workTime = new Duration(mySession);
-// 		this.breakTime = new Duration(myBreak);
-
-
-// 	}
-
-// 	Clock.prototype.draw = function() {
-// 		console.log(this);		
-// 		// render the clock to the screen
-// 		// this.timer();
-// 	}
-
-// 	Clock.prototype.update = function() {
-
-// 	}
-
-// 	function Duration(time) {
-// 		this.milliseconds = (time * 60) * 1000;
-// 		this.seconds = function(){
-// 			return this.milliseconds / 1000;
-// 		}
-// 		this.minutes = function() {
-// 			return this.seconds() / 60;
-// 		}		
-// 	}
-
-// 	Duration.prototype.deduct = function() {
-// 		console.log(this);
-// 		this.milliseconds -= 1000;
-// 	}
-
-// 	// Clock.prototype.timer = function() {
-// 	// 	console.log(this);
-// 	// 	setInterval(this.update, 1000)
-// 	// }
-
-// 	var myTime = new Clock(25, 5);
-
-// 	var timey = moment.duration(25, 'minutes');
-// 	console.log(timey);
-
-// 	window.setInterval(function(){
-// 		timey._milliseconds -=1000;
-// 		console.log(timey.minutes());
-// 		myTime.workTime.deduct()
-// 		console.log(myTime.workTime.minutes());
-// 		console.log(myTime.workTime.seconds())		
-// 	}, 1000)
-
-// // })();
 
 
 (function(global, moment){
+
+	let timerHasStarted = false;
+
+	let roma, siesta;
 	
 	const startBtn = document.querySelector('.start');
 	const resetBtn = document.querySelector('.reset');
@@ -4537,69 +4482,82 @@ return hooks;
 	const breakDecBtn = document.querySelector('.break-increment');			
 	
 	let duration = {
-		work: 25,
-		break: 5 
+		work: moment.duration(3, 'minutes'),
+		break: moment.duration(1, 'minutes') 
 	};
 
-	let roma = moment.duration(duration.work, 'minutes');		
+	
 
 	// start & stop
 	function startStopTimer() {
-		if(!timer.started) {
-			timer.start();
+		if(!timerHasStarted) {
+			initTimer();
 		} else {
-			timer.stop();
-		}		
+			if(!timer.started) {
+				workTimer.start();
+			} else {
+				workTimer.stop();
+			}				
+		}	
+	
 	}
 	
 	// reset
 	function resetTimer(){
-		timer.stop();	
+		timer.stop();
+		timerHasStarted = false;	
 		console.log(duration);
 		roma = moment.duration(duration.work, 'minutes');
 		console.log(roma._milliseconds);				
 	}
 	
 	function timerIncrement(timerSelect) {
-		duration[timerSelect] += 1;
+		// duration[timerSelect] += 1;
+		duration[timerSelect]._data.minutes += 1;
+		console.log(duration.work)
 	}
 
 	function timerDecrement(timerSelect) {
-		duration[timerSelect] += 1;
+		duration[timerSelect]._data.minutes -= 1;
 	}	
 	
-	
-	
-	// function countdown(duration) {
+
+	function initTimer() {
+		roma = moment.duration(duration.work._data.minutes, 'minutes');
+		siesta = moment.duration(duration.break._data.minutes, 'minutes');
+		timerHasStarted = true;
+		workTimer.start();			
+	}
 		
-	// 	let roma = moment.duration(duration, 'minutes');
-	// 	console.log(roma);
+		var workTimer = moment.duration(1, "seconds").timer({
+		  loop: true, 
+		  start: false
+			}, function() { 
+				console.log(roma.get("minutes"));
+				if(roma._milliseconds === 0) {
+					workTimer.clearTimer();
+					console.log('workTimer finished!!')
+					breakTimer.start();
+				} else {
+					roma.subtract(1, 'second');
+					console.log(roma._milliseconds);						
+				}
 
-				
-	// 	var timer = moment.duration(1, "seconds").timer({
-	// 	  loop: true
-	// 	}, function() { 
-			
-	// 	});
-		
-	// }
-	
-	// countdown(25);
+			});
+
+		var breakTimer = moment.duration(1, "seconds").timer({
+		  loop: true, 
+		  start: false
+			}, function() { 
+				console.log(siesta.get("minutes")); 
+				siesta.subtract(1, 'second');
+				console.log(siesta._milliseconds);	
+			});		
 
 
-	
-	var timer = moment.duration(1, "seconds").timer({
-	  loop: true, 
-	  start: false
-		}, function() { 
-			console.log(roma.get("minutes")); 
-			roma.subtract(1, 'second');
-			console.log(roma._milliseconds);	
-		});
+		console.log(workTimer);	
+		console.log(workTimer.started);
 
-
-	console.log(timer);	
-	console.log(timer.started);
 	
 	// Button Handlers
 	
@@ -4612,6 +4570,14 @@ return hooks;
 		timerIncrement(timerSelect);
 	});
 	timeDecBtn.addEventListener('click', function(e){
+		var timerSelect = e.target.dataset.target;
+		timerDecrement(timerSelect);
+	});
+	breakIncBtn.addEventListener('click', function(e){
+		var timerSelect = e.target.dataset.target;
+		timerIncrement(timerSelect);
+	});
+	breakDecBtn.addEventListener('click', function(e){
 		var timerSelect = e.target.dataset.target;
 		timerDecrement(timerSelect);
 	});
