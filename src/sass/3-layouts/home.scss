@@ -1,0 +1,212 @@
+
+body {
+	background: tomato;
+}
+
+
+/* ================================= 
+  Mobile
+==================================== */
+
+
+
+
+main {
+	@include outer-container(90%);
+
+	margin: 5em auto;
+	// display: flex;
+	} 
+
+
+	.container {
+		width: 100%;
+		margin: 1em auto;
+		display: flex;
+		flex-direction: column;
+
+		// > div {
+		// 	flex: 1;
+		// }
+
+		.top {
+			// border: solid 1px green;
+			padding: 0;
+			display: inline-block;
+			position: relative;
+
+			
+			img {
+				width: 100%; 
+			}
+
+			.controls {
+				position: absolute;
+				padding: 0 .25em;
+				bottom: 5px;
+				width: 100%;
+				display: flex;
+				justify-content: space-around;
+			}
+			
+			button {
+				@include button(#C80B0B);
+				// position: absolute;
+				flex: 1 1 50%;
+				margin: 0 1px;
+
+				// border: 1px solid #601;
+				font-size: 1em;
+			}
+			
+			.start {
+				// left: 25px;
+				// bottom: 10px;
+			}
+			
+			button.reset {
+				// right: 25px;
+				// bottom: 10px;
+			}
+		}
+
+		.display {
+			margin-top: -5px;
+			background: #111;
+			text-align: center;
+			width: 100%;
+			display: flex;
+			flex-wrap: wrap;
+			font-family: $screen-font;
+			
+			.clock {
+			  font-size: 6em;	
+			  width: 100%;	
+			  color: #dfd;
+			  animation: neon4 .05s ease-in-out infinite alternate;
+			  flex-basis: 100%; 
+			}
+			
+			.time {
+				border: dotted 1px pink;
+				flex-basis: 50%;
+				font-size: 2em;
+			    color: #bfb;
+			    animation: neon4 .05s ease-in-out infinite alternate;						
+			}
+			
+			.break {
+				border: dotted 1px pink;		
+				flex-basis: 50%;
+				font-size: 2em;
+			    color: #bfb;
+			    animation: neon4 .05s ease-in-out infinite alternate;			
+			}
+			
+		}
+		
+		
+		.bottom {
+			// border: solid 1px red;
+			padding: 0;
+			margin: 0;
+			display: inline-block;
+			position: relative;	
+				
+			img {
+				width: 100%;
+			}
+			
+			button {
+				@include button(#C80B0B);
+				margin: 0 1px;
+				// position: absolute;
+				// padding: .5 2em;
+				// width: 1.7em;
+				flex: 1 1 25%;
+			}
+
+			// button:nth-child(2) {
+			// 	margin-right: 1px;
+			// }
+			// button:nth-child(3) {
+			// 	margin-left: 1px;
+			// }
+			
+			.time-adjust {
+				position: absolute;
+				padding: 0 .25em;
+				width: 100%;
+				top: 5px;
+				display: flex;
+				justify-content: space-around;
+			}
+
+			.time-decrement {
+				// left: 45px;
+				// top: 10px;			
+			}
+
+			.time-increment {
+				// left: 75px;
+				// top: 10px;			
+			}
+			
+			.break-decrement {
+				// right: 45px;
+				// top: 10px;			
+			}
+
+			.break-increment {
+				// right: 75px;
+				// top: 10px;			
+			}		
+
+		}
+
+
+	}
+
+
+/* ================================= 
+  Tablet
+==================================== */
+
+@include media($tablet) {
+
+	
+	main {
+		
+	
+		
+		@include outer-container(60%);			
+	}	
+	
+}
+
+
+
+
+/* ================================= 
+  Desktop
+==================================== */
+@include media($desktop) {
+
+	
+	main {
+		
+		
+		
+		@include outer-container(40%);			
+	}	
+	
+}
+
+@keyframes neon4 {
+  from {
+    text-shadow: 0 0 3px #fff, 0 0 6px #fff, 0 0 12px #B6FF00, 0 0 24px #B6FF00, 0 0 48px #B6FF00;
+  }
+  to {
+    text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 8px #B6FF00, 0 0 16px #B6FF00, 0 0 32px #B6FF00;
+  }
+}

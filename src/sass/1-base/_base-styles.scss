@@ -1,0 +1,62 @@
+/* ================================= 
+  Base Styles
+==================================== */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* ================================= 
+  Typography Styles
+==================================== */
+
+@font-face {
+  font-family: 'SFDigitalReadout-Medium';
+  src: url('../fonts/SFDigitalReadout-Medium.eot');
+  src: url('../fonts/SFDigitalReadout-Medium.woff2') format('woff2'),
+       url('../fonts/SFDigitalReadout-Medium.woff') format('woff'),
+       url('../fonts/SFDigitalReadout-Medium.ttf') format('truetype'),
+       url('../fonts/SFDigitalReadout-Medium.svg#SFDigitalReadout-Medium') format('svg'),
+       url('../fonts/SFDigitalReadout-Medium.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+a {
+  // color: $action-color;
+  text-decoration: none;
+  // transition: color $base-duration $base-timing;
+
+  // &:active,
+  // &:focus,
+  // &:hover {
+  //   color: shade($action-color, 25%);
+  // }
+}
+
+hr {
+  // border-bottom: $base-border;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  // margin: $base-spacing 0;
+}
+
+// Breakpoints
+
+
+
+
+
+
+

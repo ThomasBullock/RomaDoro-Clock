@@ -1,0 +1,12 @@
+/* ================================= 
+  Variables
+==================================== */
+
+$screen-font: 'SFDigitalReadout-Medium', mono-space;
+
+
+// Media Breakpoints
+$desktop-large: new-breakpoint(min-width 1200px 12);
+$desktop: new-breakpoint(min-width 992px max-width 1199px 12);
+$tablet: new-breakpoint(min-width 768px max-width 991px 12);
+$phone: new-breakpoint(min-width 320px max-width 767px 12);

@@ -1,0 +1,9 @@
+@mixin button($color) {
+	border-radius: 5px;
+	background-color: $color;
+	border-left: 2px solid lighten($color, 15%);
+	border-top:  2px solid lighten($color, 15%);
+	border-bottom: 2px solid darken($color, 15%);
+	border-right: 2px solid darken($color, 15%);
+	box-shadow: 1px 2px	1px rgba(17, 0, 0, .5);
+}
