@@ -59,15 +59,6 @@ main {
 				font-size: 1em;
 			}
 			
-			.start {
-				// left: 25px;
-				// bottom: 10px;
-			}
-			
-			button.reset {
-				// right: 25px;
-				// bottom: 10px;
-			}
 		}
 
 		.display {
@@ -79,7 +70,7 @@ main {
 			flex-wrap: wrap;
 			font-family: $screen-font;
 			
-			.clock {
+			.countdown {
 			  font-size: 6em;	
 			  width: 100%;	
 			  color: #dfd;
@@ -88,7 +79,7 @@ main {
 			}
 			
 			.time {
-				border: dotted 1px pink;
+				// border: dotted 1px pink;
 				flex-basis: 50%;
 				font-size: 2em;
 			    color: #bfb;
@@ -96,7 +87,7 @@ main {
 			}
 			
 			.break {
-				border: dotted 1px pink;		
+				// border: dotted 1px pink;		
 				flex-basis: 50%;
 				font-size: 2em;
 			    color: #bfb;
