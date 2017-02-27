@@ -61,40 +61,118 @@ main {
 			
 		}
 
+
+		.middle {
+			display: flex;
+			
+		.border {
+			flex: 1 1 10%;
+			// min-width: 20px;
+			background: darkred;
+		}
+		
+		.border:first-child {
+			border-left: 2px solid #730505;
+		}
+
+		.border:last-child {
+			border-right: 2px solid #730505;
+		}
+
 		.display {
-			margin-top: -5px;
+			flex: 1 1 80%;
+			padding-left: 1.3em;
+			padding-right: 1.3em;			
+			margin: -5px auto 0;
 			background: #111;
-			text-align: center;
-			width: 100%;
+			// text-align: center;
+			// width: 100%;
 			display: flex;
 			flex-wrap: wrap;
 			font-family: $screen-font;
-			
-			.countdown {
-			  font-size: 6em;	
-			  width: 100%;	
-			  color: #dfd;
-			  animation: neon4 .05s ease-in-out infinite alternate;
-			  flex-basis: 100%; 
+		
+			.countdown-flex {
+			  // border: dotted 1px #494;					
+			  	// flex-basis: 100%;
+			  	width: 100%;
+			  	text-align: center;
+			  	margin: 0 auto; 		
+			  // display: flex;
+			  // justify-content: space-around; 					
+
+			  	.padOn {
+				    // border: dashed 1px rgba(168,168,168, .7);				  		
+			  		// text-align: right;
+			  		// padding-top: 15px;	
+			  		color: #232;
+					// flex:1 0 20%;
+				    font-size: 6em;
+					text-shadow: 0 0 3px rgba(34, 51, 34, .9), 0 0 6px rgba(34, 51, 34, .7), 0 0 12px rgba(34, 34, 34, .8), 0 0 24px rgba(34, 34, 34, .8), 0 0 48px rgba(34, 34, 34, .8);			    					  		
+			  	}
+
+				.countdown {
+				  // border: dashed 1px rgba(168,168,168, .7);				
+				  // text-align: left;	
+				  // flex:1 0 80%;
+				  font-size: 6em;	
+				  width: 100%;	
+				  color: #dfd;
+				  animation: neon4 .03s ease-in-out infinite alternate;
+
+				}
+
 			}
 			
-			.time {
-				// border: dotted 1px pink;
-				flex-basis: 50%;
-				font-size: 2em;
-			    color: #bfb;
-			    animation: neon4 .05s ease-in-out infinite alternate;						
+			.time-flex {
+			  border: dotted 1px pink;	
+			  flex-basis: 50%;
+			  // display: flex; 
+			  					
+			  	.padOn {
+					flex-basis: 25%;
+					color: #333;		  		
+			  	}
+			  	
+			  	.padOff {
+					flex-basis: 0;		  		
+			  	}
+			  	
+				.time {
+					// border: dotted 1px pink;
+					flex-basis: 75%;
+					font-size: 2em;
+				    color: #bfb;
+				    animation: neon4 .05s ease-in-out infinite alternate;						
+				}
+				
 			}
 			
-			.break {
-				// border: dotted 1px pink;		
-				flex-basis: 50%;
-				font-size: 2em;
-			    color: #bfb;
-			    animation: neon4 .05s ease-in-out infinite alternate;			
+			
+			.break-flex {
+			  flex-basis: 50%;
+			  // display: flex;
+			  
+			  	.pad {
+					flex-basis: 25%;		  		
+			  	}
+			   
+				.break {
+					// border: dotted 1px pink;		
+					flex-basis: 75%;
+					font-size: 2em;
+				    color: #bfb;
+				    animation: neon4 .05s ease-in-out infinite alternate;			
+				}
+				
 			}
+			
+
 			
 		}
+
+			
+		}
+
 		
 		
 		.bottom {

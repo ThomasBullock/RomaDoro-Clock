@@ -517,11 +517,31 @@ main::after {
 .container .top button:focus {
   outline: 2px dotted rgba(255, 165, 165, 0.5); }
 
-.container .display {
-  margin-top: -5px;
+.container .middle {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+
+.container .middle .border {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 10%;
+          flex: 1 1 10%;
+  background: darkred; }
+
+.container .middle .border:first-child {
+  border-left: 2px solid #730505; }
+
+.container .middle .border:last-child {
+  border-right: 2px solid #730505; }
+
+.container .middle .display {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 80%;
+          flex: 1 1 80%;
+  padding-left: 1.3em;
+  padding-right: 1.3em;
+  margin: -5px auto 0;
   background: #111;
-  text-align: center;
-  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -529,26 +549,56 @@ main::after {
       flex-wrap: wrap;
   font-family: "SFDigitalReadout-Medium", mono-space; }
 
-.container .display .countdown {
+.container .middle .display .countdown-flex {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto; }
+
+.container .middle .display .countdown-flex .padOn {
+  color: #232;
+  font-size: 6em;
+  text-shadow: 0 0 3px rgba(34, 51, 34, 0.9), 0 0 6px rgba(34, 51, 34, 0.7), 0 0 12px rgba(34, 34, 34, 0.8), 0 0 24px rgba(34, 34, 34, 0.8), 0 0 48px rgba(34, 34, 34, 0.8); }
+
+.container .middle .display .countdown-flex .countdown {
   font-size: 6em;
   width: 100%;
   color: #dfd;
-  -webkit-animation: neon4 .05s ease-in-out infinite alternate;
-          animation: neon4 .05s ease-in-out infinite alternate;
-  -ms-flex-preferred-size: 100%;
-      flex-basis: 100%; }
+  -webkit-animation: neon4 .03s ease-in-out infinite alternate;
+          animation: neon4 .03s ease-in-out infinite alternate; }
 
-.container .display .time {
+.container .middle .display .time-flex {
+  border: dotted 1px pink;
   -ms-flex-preferred-size: 50%;
-      flex-basis: 50%;
+      flex-basis: 50%; }
+
+.container .middle .display .time-flex .padOn {
+  -ms-flex-preferred-size: 25%;
+      flex-basis: 25%;
+  color: #333; }
+
+.container .middle .display .time-flex .padOff {
+  -ms-flex-preferred-size: 0;
+      flex-basis: 0; }
+
+.container .middle .display .time-flex .time {
+  -ms-flex-preferred-size: 75%;
+      flex-basis: 75%;
   font-size: 2em;
   color: #bfb;
   -webkit-animation: neon4 .05s ease-in-out infinite alternate;
           animation: neon4 .05s ease-in-out infinite alternate; }
 
-.container .display .break {
+.container .middle .display .break-flex {
   -ms-flex-preferred-size: 50%;
-      flex-basis: 50%;
+      flex-basis: 50%; }
+
+.container .middle .display .break-flex .pad {
+  -ms-flex-preferred-size: 25%;
+      flex-basis: 25%; }
+
+.container .middle .display .break-flex .break {
+  -ms-flex-preferred-size: 75%;
+      flex-basis: 75%;
   font-size: 2em;
   color: #bfb;
   -webkit-animation: neon4 .05s ease-in-out infinite alternate;
