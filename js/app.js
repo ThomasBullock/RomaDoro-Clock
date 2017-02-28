@@ -4484,7 +4484,7 @@ return hooks;
 	console.log(this);
 	
 	let duration = {
-		work: moment.duration(15, 'minutes'),
+		work: moment.duration(25, 'minutes'),
 		break: moment.duration(5, 'minutes') 
 	};
 
@@ -4525,13 +4525,17 @@ return hooks;
 		// duration[timerSelect] += 1;
 		duration[timerSelect]._data.minutes += 1;
 		// console.log(duration.work)
-		(timerSelect === 'work') ? viewUpdate(timeDisplay, duration[timerSelect]) : viewUpdate(breakDisplay, duration[timerSelect]);
+		(timerSelect === 'work') ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);
 		
 	}
 
 	function timerDecrement(timerSelect) {
-		duration[timerSelect]._data.minutes -= 1;
-		(timerSelect === 'work') ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);	
+		if(duration[timerSelect]._data.minutes < 2) {
+			return
+		} else {
+			duration[timerSelect]._data.minutes -= 1;
+			(timerSelect === 'work') ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);	
+		}
 	}	
 	
 
@@ -4580,19 +4584,19 @@ return hooks;
 	resetBtn.addEventListener('click', resetTimer);
 
 	timeIncBtn.addEventListener('click', function(e){
-		var timerSelect = e.target.dataset.target;
+		var timerSelect = this.dataset.target;
 		timerIncrement(timerSelect);
 	});
 	timeDecBtn.addEventListener('click', function(e){
-		var timerSelect = e.target.dataset.target;
+		var timerSelect = this.dataset.target;
 		timerDecrement(timerSelect);
 	});
 	breakIncBtn.addEventListener('click', function(e){
-		var timerSelect = e.target.dataset.target;
+		var timerSelect = this.dataset.target;
 		timerIncrement(timerSelect);
 	});
-	breakDecBtn.addEventListener('click', function(e){
-		var timerSelect = e.target.dataset.target;
+	breakDecBtn.addEventListener('click', function(e){	
+		var timerSelect = this.dataset.target; // this avoids issues with target/bubbling due to nested <i>
 		timerDecrement(timerSelect);
 	});
 	// timeDecrement.addEventListener('click', decTimer);	
@@ -4607,7 +4611,7 @@ return hooks;
 		const breakDisplay = document.querySelector('.break');	
 		
 
-		function padSeconds(num) {
+		function padDigit(num) {
 			console.log(num)
 			if (num < 10) {
 				return "0" + num; 
@@ -4619,17 +4623,17 @@ return hooks;
 		function countdownFunc(timeObject) {
 			timeObject = timeObject || work;
 			console.log(roma);
-			var timeStr = timeObject.get("minutes") + ":" + padSeconds(timeObject.get("seconds"));
+			var timeStr = padDigit(timeObject.get("minutes")) + ":" + padDigit(timeObject.get("seconds"));
 			countdown.textContent =  timeStr;			
 		}
 
 		function timeFunc(timeObject) {
-			var timeStr = work.get("minutes") + ":" + padSeconds(work.get("seconds"));
+			var timeStr = padDigit(work.get("minutes")) + ":" + padDigit(work.get("seconds"));
 			timeDisplay.textContent =  timeStr;	
 		}
 		
 		function recessFunc(timeObject) {
-			var timeStr = recess.get("minutes") + ":" + padSeconds(recess.get("seconds"));
+			var timeStr = padDigit(recess.get("minutes")) + ":" + padDigit(recess.get("seconds"));
 			breakDisplay.textContent =  timeStr;	
 		}
 		
