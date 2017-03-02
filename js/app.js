@@ -4526,7 +4526,10 @@ return hooks;
 		duration[timerSelect]._data.minutes += 1;
 		// console.log(duration.work)
 		(timerSelect === 'work') ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);
-		
+		if (!timerHasStarted) {
+			view.updateCountdown(duration.work);			
+		}
+
 	}
 
 	function timerDecrement(timerSelect) {
@@ -4534,7 +4537,10 @@ return hooks;
 			return
 		} else {
 			duration[timerSelect]._data.minutes -= 1;
-			(timerSelect === 'work') ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);	
+			(timerSelect === 'work') ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);
+			if (!timerHasStarted) {
+				view.updateCountdown(duration.work);			
+			}				
 		}
 	}	
 	
@@ -4560,7 +4566,6 @@ return hooks;
 					// console.log(roma._milliseconds);
 					view.updateCountdown(roma);						
 				}
-
 			});
 
 		var breakTimer = moment.duration(1, "seconds").timer({
