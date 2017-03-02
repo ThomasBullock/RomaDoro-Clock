@@ -445,7 +445,7 @@ hr {
   Variables
 ==================================== */
 body {
-  background: tomato; }
+  background: #99cb32; }
 
 /* ================================= 
   Mobile
@@ -483,13 +483,14 @@ main::after {
 .container .top .controls {
   position: absolute;
   padding: 0 .25em;
-  bottom: 5px;
+  bottom: 9px;
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around; }
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
 
 .container .top button {
   border-radius: 5px;
@@ -499,11 +500,10 @@ main::after {
   border-bottom: 2px solid #7f0707;
   border-right: 2px solid #7f0707;
   box-shadow: 1px 3px 1px rgba(17, 0, 0, 0.5);
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 50%;
-          flex: 1 1 50%;
-  margin: 0 1px;
-  font-size: 1em; }
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 25%;
+          flex: 0 1 25%;
+  margin: 0 1px; }
 
 .container .top button:hover {
   background-color: #d20c0c; }
@@ -517,11 +517,37 @@ main::after {
 .container .top button:focus {
   outline: 2px dotted rgba(255, 165, 165, 0.5); }
 
-.container .display {
+.container .top button i.fa {
+  font-size: 1.4em;
+  color: #fcaca3;
+  text-shadow: 0 -1px 1px #7a1300, 0 1px 1px #ffb1a3; }
+
+.container .middle {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+
+.container .middle .border {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 10%;
+          flex: 1 1 10%;
   margin-top: -5px;
+  background: #aa0000; }
+
+.container .middle .border:first-child {
+  border-left: 2px solid #730505; }
+
+.container .middle .border:last-child {
+  border-right: 2px solid #730505; }
+
+.container .middle .display {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 80%;
+          flex: 1 1 80%;
+  padding-left: 1.3em;
+  padding-right: 1.3em;
+  margin: -5px auto 0;
   background: #111;
-  text-align: center;
-  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -529,26 +555,43 @@ main::after {
       flex-wrap: wrap;
   font-family: "SFDigitalReadout-Medium", mono-space; }
 
-.container .display .countdown {
+.container .middle .display .countdown-flex {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto; }
+
+.container .middle .display .countdown-flex .countdown {
   font-size: 6em;
   width: 100%;
   color: #dfd;
-  -webkit-animation: neon4 .05s ease-in-out infinite alternate;
-          animation: neon4 .05s ease-in-out infinite alternate;
-  -ms-flex-preferred-size: 100%;
-      flex-basis: 100%; }
+  -webkit-animation: neon4 .03s ease-in-out infinite alternate;
+          animation: neon4 .03s ease-in-out infinite alternate; }
 
-.container .display .time {
+.container .middle .display .time-flex {
   -ms-flex-preferred-size: 50%;
       flex-basis: 50%;
+  padding-right: 1em;
+  text-align: right; }
+
+.container .middle .display .time-flex .time {
+  text-align: right;
+  -ms-flex-preferred-size: 75%;
+      flex-basis: 75%;
   font-size: 2em;
   color: #bfb;
   -webkit-animation: neon4 .05s ease-in-out infinite alternate;
           animation: neon4 .05s ease-in-out infinite alternate; }
 
-.container .display .break {
+.container .middle .display .break-flex {
   -ms-flex-preferred-size: 50%;
       flex-basis: 50%;
+  padding-left: 1em;
+  text-align: left; }
+
+.container .middle .display .break-flex .break {
+  text-align: left;
+  -ms-flex-preferred-size: 75%;
+      flex-basis: 75%;
   font-size: 2em;
   color: #bfb;
   -webkit-animation: neon4 .05s ease-in-out infinite alternate;
@@ -563,6 +606,18 @@ main::after {
 .container .bottom img {
   width: 100%; }
 
+.container .bottom .time-adjust {
+  position: absolute;
+  padding: 0 .25em;
+  width: 100%;
+  top: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
 .container .bottom button {
   border-radius: 5px;
   background-color: #C80B0B;
@@ -572,9 +627,9 @@ main::after {
   border-right: 2px solid #7f0707;
   box-shadow: 1px 3px 1px rgba(17, 0, 0, 0.5);
   margin: 0 1px;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 25%;
-          flex: 1 1 25%; }
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 12.5%;
+          flex: 0 1 12.5%; }
 
 .container .bottom button:hover {
   background-color: #d20c0c; }
@@ -588,16 +643,10 @@ main::after {
 .container .bottom button:focus {
   outline: 2px dotted rgba(255, 165, 165, 0.5); }
 
-.container .bottom .time-adjust {
-  position: absolute;
-  padding: 0 .25em;
-  width: 100%;
-  top: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around; }
+.container .bottom button i.fa {
+  font-size: 1.4em;
+  color: #fcaca3;
+  text-shadow: 0 -1px 1px #7a1300, 0 1px 1px #ffb1a3; }
 
 /* ================================= 
   Tablet

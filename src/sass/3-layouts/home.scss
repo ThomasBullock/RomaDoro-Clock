@@ -1,6 +1,6 @@
 
 body {
-	background: tomato;
+	background: lighten(olivedrab, 15%);
 }
 
 
@@ -25,10 +25,6 @@ main {
 		display: flex;
 		flex-direction: column;
 
-		// > div {
-		// 	flex: 1;
-		// }
-
 		.top {
 			// border: solid 1px green;
 			padding: 0;
@@ -43,58 +39,124 @@ main {
 			.controls {
 				position: absolute;
 				padding: 0 .25em;
-				bottom: 5px;
+				bottom: 9px;
 				width: 100%;
 				display: flex;
-				justify-content: space-around;
+				justify-content: center;
 			}
 			
 			button {
 				@include button(#C80B0B);
 				// position: absolute;
-				flex: 1 1 50%;
+				flex: 0 1 25%;
 				margin: 0 1px;
 
-				// border: 1px solid #601;
-				font-size: 1em;
+				i.fa {
+					font-size: 1.4em;
+					color: lighten(salmon, 10%);
+					text-shadow: 0 -1px 1px darken(tomato, 40%), 0 1px 1px lighten(tomato, 18%);
+				}
 			}
 			
+		}
+
+
+		.middle {
+			display: flex;
+			
+		.border {
+			flex: 1 1 10%;
+			// min-width: 20px;
+			margin-top: -5px;
+			background: lighten(darkred, 6%);
+		}
+		
+		.border:first-child {
+			border-left: 2px solid #730505;
+		}
+
+		.border:last-child {
+			border-right: 2px solid #730505;
 		}
 
 		.display {
-			margin-top: -5px;
+			flex: 1 1 80%;
+			padding-left: 1.3em;
+			padding-right: 1.3em;			
+			margin: -5px auto 0;
 			background: #111;
-			text-align: center;
-			width: 100%;
+			// text-align: center;
+			// width: 100%;
 			display: flex;
 			flex-wrap: wrap;
 			font-family: $screen-font;
-			
-			.countdown {
-			  font-size: 6em;	
-			  width: 100%;	
-			  color: #dfd;
-			  animation: neon4 .05s ease-in-out infinite alternate;
-			  flex-basis: 100%; 
+		
+			.countdown-flex {
+			  // border: dotted 1px #494;					
+			  	// flex-basis: 100%;
+			  	width: 100%;
+			  	text-align: center;
+			  	margin: 0 auto; 		
+			  // display: flex;
+			  // justify-content: space-around; 					
+
+
+				.countdown {
+				  // border: dashed 1px rgba(168,168,168, .7);				
+				  // text-align: left;	
+				  // flex:1 0 80%;
+				  font-size: 6em;	
+				  width: 100%;	
+				  color: #dfd;
+				  animation: neon4 .03s ease-in-out infinite alternate;
+
+				}
+
 			}
 			
-			.time {
-				// border: dotted 1px pink;
-				flex-basis: 50%;
-				font-size: 2em;
-			    color: #bfb;
-			    animation: neon4 .05s ease-in-out infinite alternate;						
+			.time-flex {
+			  // border: dotted 1px pink;	
+			  flex-basis: 50%;
+			  padding-right: 1em;
+			  text-align: right;  
+			  // display: flex; 
+			  								  	
+				.time {
+					// border: dotted 1px pink;
+					text-align: right;
+					flex-basis: 75%;
+					font-size: 2em;
+				    color: #bfb;
+				    animation: neon4 .05s ease-in-out infinite alternate;						
+				}
+				
 			}
 			
-			.break {
-				// border: dotted 1px pink;		
-				flex-basis: 50%;
-				font-size: 2em;
-			    color: #bfb;
-			    animation: neon4 .05s ease-in-out infinite alternate;			
+			
+			.break-flex {
+			  flex-basis: 50%;
+			  padding-left: 1em;
+			  text-align: left;  		  
+			  // display: flex;			  
+			   
+				.break {
+					// border: dotted 1px pink;
+					text-align: left;			
+					flex-basis: 75%;
+					font-size: 2em;
+				    color: #bfb;
+				    animation: neon4 .05s ease-in-out infinite alternate;			
+				}
+				
 			}
+			
+
 			
 		}
+
+			
+		}
+
 		
 		
 		.bottom {
@@ -108,21 +170,7 @@ main {
 				width: 100%;
 			}
 			
-			button {
-				@include button(#C80B0B);
-				margin: 0 1px;
-				// position: absolute;
-				// padding: .5 2em;
-				// width: 1.7em;
-				flex: 1 1 25%;
-			}
 
-			// button:nth-child(2) {
-			// 	margin-right: 1px;
-			// }
-			// button:nth-child(3) {
-			// 	margin-left: 1px;
-			// }
 			
 			.time-adjust {
 				position: absolute;
@@ -130,8 +178,25 @@ main {
 				width: 100%;
 				top: 5px;
 				display: flex;
-				justify-content: space-around;
+				justify-content: center;
 			}
+
+			button {
+				@include button(#C80B0B);
+				margin: 0 1px;
+				// position: absolute;
+				// padding: .5 2em;
+				// width: 1.7em;
+				flex: 0 1 12.5%;
+
+				i.fa {
+					font-size: 1.4em;
+					color: lighten(salmon, 10%);
+					text-shadow: 0 -1px 1px darken(tomato, 40%), 0 1px 1px lighten(tomato, 18%);
+				}
+			}
+
+
 
 			.time-decrement {
 				// left: 45px;
