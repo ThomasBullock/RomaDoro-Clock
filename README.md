@@ -1,42 +1,46 @@
-## Bourbon Neat Gulp Template ##
-Starter Template For Bourbon Neat using Gulp
+## Pomodoro Clock ##
+Project for Free Code Camp Advanced Challenges
 
 Technologies used
 
- [JQuery](http://jquery.com/download/), [Bourbon](http://bourbon.io/)/[Neat](http://neat.bourbon.io/) 
+[Moment js](https://momentjs.com/) [Moment Timer](github.com/SeverinDK/moment-timer) 
+[Bourbon](http://bourbon.io/)/[Neat](http://neat.bourbon.io/) 
 
 ## Notes
 
-Download and run NPM install.
-Gulp watchFiles - watches src/javascript & src/sass for changes and outputs changes
-
-There's no build task in Gulp at this stage.
-Sass errors will halt watchFiles task.
+Used nested flexboxs for layout 
 
 ## Folder Structure
 
 ```
-BourbonNeatGulpTemplate/
+RomaDoro-Clock/
+
     README.md
-    gulpfile.js
-    package.json
+    .babelrc
+    audio/
     css/
       styles.css
       styles.css.map
+    dist/
     js/
       app.js
       app.js.map
-    node_modules/  
+    node_modules/
+      moment-timer/
+       lib/
+        moment-timer.js
     src/
       javascript/
-        bourbon-refills.js
+        moment.js
         main.js
       sass/
         0-plugins/
         1-base/
         2-modules/
         3-layouts/
-        styles.scss
+        styles.scss       
     index.html
+    gulpfile.js
+    package.json
   
 ```
