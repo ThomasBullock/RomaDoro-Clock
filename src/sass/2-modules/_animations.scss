@@ -1,0 +1,21 @@
+@keyframes flicker {
+  from {
+    text-shadow: 0 0 3px #fff, 0 0 6px #fff, 0 0 12px #B6FF00, 0 0 24px #B6FF00, 0 0 48px #B6FF00;
+  }
+  to {
+    text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 8px #B6FF00, 0 0 16px #B6FF00, 0 0 32px #B6FF00;
+  }
+}
+
+
+
+@keyframes flash {
+  from, 50%, to {
+    opacity: 1;
+  }
+
+  25%, 75% {
+    opacity: 0.3;
+  }
+}
+

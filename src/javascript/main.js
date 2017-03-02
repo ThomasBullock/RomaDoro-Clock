@@ -1,7 +1,5 @@
 
-
-
-(function(global, moment){
+(function(global){
 
 	let timerHasStarted = false;
 
@@ -13,21 +11,16 @@
 	const timeDecBtn = document.querySelector('.time-decrement');
 	const breakIncBtn = document.querySelector('.break-increment');
 	const breakDecBtn = document.querySelector('.break-decrement');	
+
+	const alarm = document.querySelector('audio[src="audio/Annoying_Alarm.wav"]');
 					
-	console.log(this);
+	console.log(moment);
 	
 	let duration = {
 		work: moment.duration(25, 'minutes'),
 		break: moment.duration(5, 'minutes') 
 	};
-
-	// initialize view
-	// viewUpdate(countdown, duration.work)
-	// viewUpdate(timeDisplay, duration.work)
-	// viewUpdate(breakDisplay, duration.break)
-
 	
-
 	// start & stop
 	function startStopTimer() {
 		if(!timerHasStarted) {
@@ -38,35 +31,39 @@
 			} else {
 				workTimer.stop();
 			}				
-		}	
-	
+		}		
 	}
 	
 	// reset
 	function resetTimer(){
 		workTimer.stop();
 		timerHasStarted = false;	
-		console.log(duration);
 		roma = moment.duration(duration.work, 'minutes');
-		// console.log(roma._milliseconds);
-		console.log(typeof duration.work);
 		view.updateCountdown(duration.work)				
 	}
 	
+	function timerMax() {
+		if (duration.work._data.minutes + duration.break._data.minutes === 60) {
+			return true;
+		} else {
+			return false;	
+		} 
+	}
+	
 	function timerIncrement(timerSelect) {
-
-		// duration[timerSelect] += 1;
-		duration[timerSelect]._data.minutes += 1;
-		// console.log(duration.work)
-		(timerSelect === 'work') ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);
-		if (!timerHasStarted) {
-			view.updateCountdown(duration.work);			
+		if(timerMax()) {
+			return
+		} else {
+			duration[timerSelect]._data.minutes += 1 || (timerMax());
+			(timerSelect === 'work') ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);
+			if (!timerHasStarted) {
+				view.updateCountdown(duration.work);			
+			}
 		}
-
 	}
 
 	function timerDecrement(timerSelect) {
-		if(duration[timerSelect]._data.minutes < 2) {
+		if(duration[timerSelect]._data.minutes < 2) { 
 			return
 		} else {
 			duration[timerSelect]._data.minutes -= 1;
@@ -77,7 +74,6 @@
 		}
 	}	
 	
-
 	function initTimer() {
 		roma = moment.duration(duration.work._data.minutes, 'minutes');
 		siesta = moment.duration(duration.break._data.minutes, 'minutes');
@@ -90,13 +86,17 @@
 		  start: false
 			}, function() { 
 				console.log(roma.get("minutes"));
+				if(roma._milliseconds === 60000) {
+					view.toggleAnimation();
+				} 
 				if(roma._milliseconds === 0) {
-					workTimer.clearTimer();
+					alarm.play();
+					view.toggleAnimation();
 					console.log('workTimer finished!!')
+					workTimer.clearTimer();
 					breakTimer.start();
 				} else {
 					roma.subtract(1, 'second');
-					// console.log(roma._milliseconds);
 					view.updateCountdown(roma);						
 				}
 			});
@@ -104,16 +104,20 @@
 		var breakTimer = moment.duration(1, "seconds").timer({
 		  loop: true, 
 		  start: false
-			}, function() { 
-				// console.log(siesta.get("minutes")); 
-				siesta.subtract(1, 'second');
-				// console.log(siesta._milliseconds);	
+			}, function() {
+				if(siesta._milliseconds === 60000) {
+					view.toggleAnimation();				
+				} 
+				if(siesta._milliseconds === 0) {
+					alarm.play();
+					view.toggleAnimation();					
+					timerHasStarted = false;
+					breakTimer.clearTimer();																	
+				} else {				
+					siesta.subtract(1, 'second');
+					view.updateCountdown(siesta);
+				}
 			});		
-
-
-		console.log(workTimer);	
-		console.log(workTimer.started);
-
 	
 	// Button Handlers
 	
@@ -137,10 +141,7 @@
 		var timerSelect = this.dataset.target; // this avoids issues with target/bubbling due to nested <i>
 		timerDecrement(timerSelect);
 	});
-	// timeDecrement.addEventListener('click', decTimer);	
 	
-	
-	console.log(roma);
 	var view = (function viewModule(work, recess) {
 
 		const countdown = document.querySelector('.countdown');
@@ -148,9 +149,7 @@
 		const timeDisplay = document.querySelector('.time');	
 		const breakDisplay = document.querySelector('.break');	
 		
-
 		function padDigit(num) {
-			console.log(num)
 			if (num < 10) {
 				return "0" + num; 
 			} else {
@@ -158,9 +157,13 @@
 			}
 		} 			
 	
+		function toggleAnimation(target){
+			countdown.classList.toggle('flicker');
+			countdown.classList.toggle('flash');			
+		}
+	
 		function countdownFunc(timeObject) {
 			timeObject = timeObject || work;
-			console.log(roma);
 			var timeStr = padDigit(timeObject.get("minutes")) + ":" + padDigit(timeObject.get("seconds"));
 			countdown.textContent =  timeStr;			
 		}
@@ -176,6 +179,7 @@
 		}
 		
 		return 	{
+			toggleAnimation: toggleAnimation,
 			updateCountdown: countdownFunc,
 			updateTime: timeFunc,
 			updateBreak: recessFunc
@@ -188,35 +192,7 @@
 	view.updateTime();	
 	view.updateBreak();					
 	
-	 
-
-	// function viewUpdate(elem, timeObject) {
-		
-	// 	console.dir(elem)
-	// 	function padMinutes(on, target) {
-	// 		(on) ? countdownPad.classList.add(".padOn") : countdownPad.classList.remove(".padOn");
-	// 		(on) ? countdownPad.textContent = "0" : countdownPad.textContent = "";	
-	// 	}
-		
-	// 	var target = elem.classList[0] + "Pad";
-	// 	console.log(target);
-	// 	timeObject.get("minutes") < 10 ? padMinutes(true, target) : padMinutes(false, target);
-				
-	// 	function padSeconds(num) {
-	// 		console.log(num)
-	// 		if (num < 10) {
-	// 			return "0" + num; 
-	// 		} else {
-	// 			return num;
-	// 		}
-	// 	} 
-	// 	// var seconds = timeObject.get("seconds") || 0;
-	// 	// console.log(timeObject);
-	// 	var timeStr = timeObject.get("minutes") + ":" + padSeconds(timeObject.get("seconds"));
-	// 	// console.log(timeStr);
-	// 	elem.textContent =  timeStr;
-	// }
 
 	
-})(window, moment);
+})(window);
 
