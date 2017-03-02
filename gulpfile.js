@@ -44,9 +44,8 @@ gulp.task("minifyScripts", ["transpile"], function(){
 
 gulp.task("compileSass", function(){
 	return gulp.src("src/sass/styles.scss")
-	.pipe(sass().on('error', sass.logError))
 	.pipe(maps.init())
-	.pipe(sass())
+	.pipe(sass().on('error', sass.logError))
 	.pipe(autoprefixer())
 	.pipe(maps.write('./'))
 	.pipe(gulp.dest('css'));
@@ -66,6 +65,6 @@ gulp.task('watchFiles', function() {
 
 gulp.task('build', ["minifyScripts", "minifyCss"], function(){
 	console.log("Remember to change index.html links to minified versions");
-	return gulp.src(["js/app.min.js", "index.html", "img/**", "fonts/**"] , { base: "./"})
+	return gulp.src(["js/app.min.js", "index.html", "img/**", "fonts/**", "audio/**"] , { base: "./"})
 			.pipe(gulp.dest('dist'));
 });
