@@ -8,7 +8,7 @@ Technologies used
 
 ## Notes
 
-Used nested flexboxs for layout 
+Used nested flexboxes for layout. 
 
 ## Folder Structure
 
@@ -21,7 +21,7 @@ RomaDoro-Clock/
     css/
       styles.css
       styles.css.map
-    dist/
+    docs/
     js/
       app.js
       app.js.map
