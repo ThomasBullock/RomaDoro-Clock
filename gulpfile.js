@@ -55,7 +55,7 @@ gulp.task("minifyCss", ["compileSass"], function(){
 	return gulp.src("css/styles.css")
 	    .pipe(cleanCSS({compatibility: 'ie8'}))
 	    .pipe(rename('styles.min.css'))
-	    .pipe(gulp.dest('dist/css'));	
+	    .pipe(gulp.dest('docs/css'));	
 });
 
 gulp.task('watchFiles', function() {
@@ -66,5 +66,5 @@ gulp.task('watchFiles', function() {
 gulp.task('build', ["minifyScripts", "minifyCss"], function(){
 	console.log("Remember to change index.html links to minified versions");
 	return gulp.src(["js/app.min.js", "index.html", "img/**", "fonts/**", "audio/**"] , { base: "./"})
-			.pipe(gulp.dest('dist'));
+			.pipe(gulp.dest('docs'));
 });
