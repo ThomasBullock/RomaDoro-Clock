@@ -1,6 +1,9 @@
 
 body {
 	background: lighten(olivedrab, 15%);
+	background-image: url('../img/garden_background_sm.jpg');
+	background-repeat: repeat-y;
+	background-size: cover;
 }
 
 .flicker {
@@ -12,6 +15,9 @@ body {
 	animation: flash .5s ease-in-out infinite alternate;	
 }
 
+.texture-normal {
+	@include texture(180deg, #060706, #181918, 85, 1);
+}
 
 /* ================================= 
   Mobile
@@ -90,7 +96,7 @@ main {
 			padding-left: 1.3em;
 			padding-right: 1.3em;			
 			margin: -5px auto 0;
-			background: #111;
+
 			// text-align: center;
 			// width: 100%;
 			display: flex;
@@ -232,6 +238,10 @@ main {
 ==================================== */
 @include media($desktop) {
 
+	body {
+		background-image: url('../img/garden_background_lg.jpg');
+		background-repeat: none;		
+	} 
 	
 	main {
 		margin: 2em auto;					
@@ -242,6 +252,11 @@ main {
 
 
 @include media($desktop-large) {
+
+	body {
+		background-image: url('../img/garden_background_lg.jpg');
+		background-repeat: none;				
+	} 
 
 	
 	main {

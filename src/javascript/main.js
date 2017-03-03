@@ -2,6 +2,7 @@
 (function(global){
 
 	let timerHasStarted = false;
+	var timer;
 
 	let roma, siesta;
 	
@@ -21,15 +22,25 @@
 		break: moment.duration(5, 'minutes') 
 	};
 	
+	function whichTimer() {
+		if(workTimer.started) {
+			return workTimer;
+		} else if(breakTimer.started) {
+			return breakTimer;
+		}
+	}
+	
 	// start & stop
 	function startStopTimer() {
 		if(!timerHasStarted) {
 			initTimer();
 		} else {
-			if(!workTimer.started) {
-				workTimer.start();
+			
+			console.log(timer);		
+			if(timer.stopped) {
+				timer.start();
 			} else {
-				workTimer.stop();
+				timer.stop();
 			}				
 		}		
 	}
@@ -78,7 +89,8 @@
 		roma = moment.duration(duration.work._data.minutes, 'minutes');
 		siesta = moment.duration(duration.break._data.minutes, 'minutes');
 		timerHasStarted = true;
-		workTimer.start();			
+		timer = workTimer;
+		timer.start();			
 	}
 		
 		var workTimer = moment.duration(1, "seconds").timer({
@@ -94,7 +106,8 @@
 					view.toggleAnimation();
 					console.log('workTimer finished!!')
 					workTimer.clearTimer();
-					breakTimer.start();
+					timer = breakTimer;
+					timer.start();
 				} else {
 					roma.subtract(1, 'second');
 					view.updateCountdown(roma);						
@@ -190,9 +203,7 @@
 	
 	view.updateCountdown();
 	view.updateTime();	
-	view.updateBreak();					
-	
-
+	view.updateBreak();						
 	
 })(window);
 

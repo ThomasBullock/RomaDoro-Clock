@@ -468,7 +468,10 @@ hr {
     opacity: 0.3; } }
 
 body {
-  background: #99cb32; }
+  background: #99cb32;
+  background-image: url("../img/garden_background_sm.jpg");
+  background-repeat: repeat-y;
+  background-size: cover; }
 
 .flicker {
   -webkit-animation: flicker .03s ease-in-out infinite alternate;
@@ -478,6 +481,10 @@ body {
   text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 8px #B6FF00, 0 0 16px #B6FF00, 0 0 32px #B6FF00;
   -webkit-animation: flash .5s ease-in-out infinite alternate;
           animation: flash .5s ease-in-out infinite alternate; }
+
+.texture-normal {
+  background: url("https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/textures/grey.png"), -webkit-linear-gradient(top, black 0%, #060706 5%, #181918 100%), center no-repeat #060706 scroll;
+  background: url("https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/textures/grey.png"), linear-gradient(180deg, black 0%, #060706 5%, #181918 100%), center no-repeat #060706 scroll; }
 
 /* ================================= 
   Mobile
@@ -565,7 +572,6 @@ main {
       padding-left: 1.3em;
       padding-right: 1.3em;
       margin: -5px auto 0;
-      background: #111;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -663,6 +669,9 @@ main {
   Desktop
 ==================================== */
 @media screen and (min-width: 992px) and (max-width: 1199px) {
+  body {
+    background-image: url("../img/garden_background_lg.jpg");
+    background-repeat: none; }
   main {
     margin: 2em auto;
     max-width: 50%;
@@ -674,6 +683,9 @@ main {
       display: block; } }
 
 @media screen and (min-width: 1200px) {
+  body {
+    background-image: url("../img/garden_background_lg.jpg");
+    background-repeat: none; }
   main {
     margin: 2em auto;
     max-width: 35%;
