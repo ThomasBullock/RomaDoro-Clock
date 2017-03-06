@@ -39,7 +39,6 @@ main {
 		flex-direction: column;
 
 		.top {
-			// border: solid 1px green;
 			padding: 0;
 			display: inline-block;
 			position: relative;
@@ -60,7 +59,6 @@ main {
 			
 			button {
 				@include button(#C80B0B);
-				// position: absolute;
 				flex: 0 1 25%;
 				margin: 0 1px;
 
@@ -78,16 +76,17 @@ main {
 			
 		.border {
 			flex: 1 1 10%;
-			// min-width: 20px;
 			margin-top: -5px;
-			background: lighten(darkred, 6%);
+			background: lighten(darkred, 7%);
 		}
 		
 		.border:first-child {
 			border-left: 2px solid #730505;
+			border-right: 2px solid #730505;		
 		}
 
 		.border:last-child {
+			border-left: 2px solid #730505;			
 			border-right: 2px solid #730505;
 		}
 
@@ -97,21 +96,15 @@ main {
 			padding-right: 1.3em;			
 			margin: -5px auto 0;
 
-			// text-align: center;
-			// width: 100%;
 			display: flex;
 			flex-wrap: wrap;
 			font-family: $screen-font;
 		
 			.countdown-flex {
-			  // border: dotted 1px #494;					
-			  	// flex-basis: 100%;
 			  	width: 100%;
 			  	text-align: center;
 			  	margin: 0 auto; 		
-			  // display: flex;
-			  // justify-content: space-around; 					
-
+					
 				.countdown {
 				  font-size: 6em;	
 				  width: 100%;	
@@ -132,12 +125,12 @@ main {
 				}				
 			}			
 			
-			.break-flex {
+			.recess-flex {
 			  flex-basis: 50%;
 			  padding-left: 1em;
 			  text-align: left;  		  		  
 			   
-				.break {
+				.recess {
 					text-align: left;			
 					flex-basis: 75%;
 					font-size: 2em;
@@ -152,7 +145,6 @@ main {
 		
 		
 		.bottom {
-			// border: solid 1px red;
 			padding: 0;
 			margin: 0;
 			display: inline-block;
@@ -162,7 +154,6 @@ main {
 				width: 100%;
 			}
 			
-
 			
 			.time-adjust {
 				position: absolute;
@@ -176,9 +167,6 @@ main {
 			button {
 				@include button(#C80B0B);
 				margin: 0 1px;
-				// position: absolute;
-				// padding: .5 2em;
-				// width: 1.7em;
 				flex: 0 1 12.5%;
 
 				i.fa {
@@ -186,29 +174,7 @@ main {
 					color: lighten(salmon, 10%);
 					text-shadow: 0 -1px 1px darken(tomato, 40%), 0 1px 1px lighten(tomato, 18%);
 				}
-			}
-
-
-
-			.time-decrement {
-				// left: 45px;
-				// top: 10px;			
-			}
-
-			.time-increment {
-				// left: 75px;
-				// top: 10px;			
-			}
-			
-			.break-decrement {
-				// right: 45px;
-				// top: 10px;			
-			}
-
-			.break-increment {
-				// right: 75px;
-				// top: 10px;			
-			}		
+			}	
 
 		}
 
@@ -223,9 +189,7 @@ main {
 @include media($tablet) {
 
 	
-	main {
-		
-	
+	main {	
 		
 		@include outer-container(60%);			
 	}	

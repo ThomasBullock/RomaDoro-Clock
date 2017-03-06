@@ -1,140 +1,120 @@
 
 (function(global){
 
-	let timerHasStarted = false;
-	var timer;
-
-	let roma, siesta;
+	var time;
 	
 	const startBtn = document.querySelector('.start');
 	const resetBtn = document.querySelector('.reset');
 	const timeIncBtn = document.querySelector('.time-increment');
 	const timeDecBtn = document.querySelector('.time-decrement');
-	const breakIncBtn = document.querySelector('.break-increment');
-	const breakDecBtn = document.querySelector('.break-decrement');	
+	const recessIncBtn = document.querySelector('.recess-increment');
+	const recessDecBtn = document.querySelector('.recess-decrement');	
 
 	const alarm = document.querySelector('audio[src="audio/Annoying_Alarm.wav"]');
-					
-	console.log(moment);
-	
-	let duration = {
+						
+	let romaDoro = {
+		working: true,
 		work: moment.duration(25, 'minutes'),
-		break: moment.duration(5, 'minutes') 
+		recess: moment.duration(5, 'minutes'),
 	};
-	
-	function whichTimer() {
-		if(workTimer.started) {
-			return workTimer;
-		} else if(breakTimer.started) {
-			return breakTimer;
-		}
-	}
-	
+			
 	// start & stop
-	function startStopTimer() {
-		if(!timerHasStarted) {
-			initTimer();
+	function startPauseTimer() {
+		if(!countdownTimer.started && !countdownTimer.isStopped()) {
+			initTimer(romaDoro.work);
+			countdownTimer.start();
 		} else {
 			
-			console.log(timer);		
-			if(timer.stopped) {
-				timer.start();
+			if(countdownTimer.stopped) {
+				countdownTimer.start();
 			} else {
-				timer.stop();
+				countdownTimer.stop();
 			}				
 		}		
 	}
 	
 	// reset
-	function resetTimer(){
-		workTimer.stop();
-		timerHasStarted = false;	
-		roma = moment.duration(duration.work, 'minutes');
-		view.updateCountdown(duration.work)				
+	function resetTimer(){	
+		countdownTimer.stop();
+		countdownTimer.started = false;
+		countdownTimer.stopped = false;		
+		alarm.pause();
+		alarm.currentTime = 0;
+		view.updateCountdown()				
 	}
-	
+		
+	function timerIncrement(timerSelect) {
+		if(timerMax()) {
+			return
+		} else {
+			romaDoro[timerSelect]._data.minutes += 1 || (timerMax());
+			(timerSelect === 'work') ? view.updateTime(romaDoro[timerSelect]) : view.updateRecess(romaDoro[timerSelect]);
+			if (!countdownTimer.started) {
+				view.updateCountdown(romaDoro.work);			
+			}
+		}
+	}
+
+	function timerDecrement(timerSelect) {
+		if(romaDoro[timerSelect]._data.minutes < 2) { 
+			return
+		} else {
+			romaDoro[timerSelect]._data.minutes -= 1;
+			(timerSelect === 'work') ? view.updateTime(romaDoro[timerSelect]) : view.updateRecess(romaDoro[timerSelect]);
+			if (!countdownTimer.started) {
+				view.updateCountdown(romaDoro.work);			
+			}				
+		}
+	}	
+
+	// prevent combined work and recess times exceeding 60 minutes
 	function timerMax() {
-		if (duration.work._data.minutes + duration.break._data.minutes === 60) {
+		if (romaDoro.work._data.minutes + romaDoro.recess._data.minutes === 60) {
 			return true;
 		} else {
 			return false;	
 		} 
 	}
 	
-	function timerIncrement(timerSelect) {
-		if(timerMax()) {
-			return
-		} else {
-			duration[timerSelect]._data.minutes += 1 || (timerMax());
-			(timerSelect === 'work') ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);
-			if (!timerHasStarted) {
-				view.updateCountdown(duration.work);			
-			}
-		}
+	function timerUpdate() {			
+			if(time._milliseconds === 60000) {  // last minute of countodwn display starts to flash
+				view.toggleAnimation();
+			} 
+			if(time._milliseconds === 0) {
+				alarm.play();
+				view.toggleAnimation();
+				console.log( (romaDoro.working) ? "work" : "recess" + " time finished!!")
+				countdownTimer.stop();
+				if (romaDoro.working) {
+					romaDoro.working = !romaDoro.working;
+					initTimer(romaDoro.recess)  // send recess duration to initTimer
+					countdownTimer.start();
+				} else {
+					romaDoro.working = !romaDoro.working;
+					countdownTimer.started = false;
+					countdownTimer.stopped = false;	
+				}
+			} else {
+				time.subtract(1, 'second');
+				view.updateCountdown(time);						
+			}		
 	}
-
-	function timerDecrement(timerSelect) {
-		if(duration[timerSelect]._data.minutes < 2) { 
-			return
-		} else {
-			duration[timerSelect]._data.minutes -= 1;
-			(timerSelect === 'work') ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);
-			if (!timerHasStarted) {
-				view.updateCountdown(duration.work);			
-			}				
-		}
-	}	
 	
-	function initTimer() {
-		roma = moment.duration(duration.work._data.minutes, 'minutes');
-		siesta = moment.duration(duration.break._data.minutes, 'minutes');
-		timerHasStarted = true;
-		timer = workTimer;
-		timer.start();			
+	function initTimer(whichCountdown) {  // create a new duration based on what duration has been sent to initTimer 
+		time = moment.duration(whichCountdown._data.minutes, 'minutes');
 	}
 		
-		var workTimer = moment.duration(1, "seconds").timer({
-		  loop: true, 
-		  start: false
-			}, function() { 
-				console.log(roma.get("minutes"));
-				if(roma._milliseconds === 60000) {
-					view.toggleAnimation();
-				} 
-				if(roma._milliseconds === 0) {
-					alarm.play();
-					view.toggleAnimation();
-					console.log('workTimer finished!!')
-					workTimer.clearTimer();
-					timer = breakTimer;
-					timer.start();
-				} else {
-					roma.subtract(1, 'second');
-					view.updateCountdown(roma);						
-				}
-			});
+	var countdownTimer = moment.duration(1, "seconds").timer({
+	  loop: true, 
+	  start: false,
+	  timer: "work"
+		}, timerUpdate );
 
-		var breakTimer = moment.duration(1, "seconds").timer({
-		  loop: true, 
-		  start: false
-			}, function() {
-				if(siesta._milliseconds === 60000) {
-					view.toggleAnimation();				
-				} 
-				if(siesta._milliseconds === 0) {
-					alarm.play();
-					view.toggleAnimation();					
-					timerHasStarted = false;
-					breakTimer.clearTimer();																	
-				} else {				
-					siesta.subtract(1, 'second');
-					view.updateCountdown(siesta);
-				}
-			});		
+
 	
 	// Button Handlers
 	
-	startBtn.addEventListener('click', startStopTimer);
+	startBtn.addEventListener('click', startPauseTimer);
 	
 	resetBtn.addEventListener('click', resetTimer);
 
@@ -146,28 +126,26 @@
 		var timerSelect = this.dataset.target;
 		timerDecrement(timerSelect);
 	});
-	breakIncBtn.addEventListener('click', function(e){
+	recessIncBtn.addEventListener('click', function(e){
 		var timerSelect = this.dataset.target;
 		timerIncrement(timerSelect);
 	});
-	breakDecBtn.addEventListener('click', function(e){	
+	recessDecBtn.addEventListener('click', function(e){	
 		var timerSelect = this.dataset.target; // this avoids issues with target/bubbling due to nested <i>
 		timerDecrement(timerSelect);
 	});
+	
+	/// View Module
 	
 	var view = (function viewModule(work, recess) {
 
 		const countdown = document.querySelector('.countdown');
 		const countdownPad = document.querySelector('.countdown-flex span:first-child');	
 		const timeDisplay = document.querySelector('.time');	
-		const breakDisplay = document.querySelector('.break');	
+		const recessDisplay = document.querySelector('.recess');	
 		
 		function padDigit(num) {
-			if (num < 10) {
-				return "0" + num; 
-			} else {
-				return num;
-			}
+			return (num < 10) ? "0" + num : num; 
 		} 			
 	
 		function toggleAnimation(target){
@@ -188,22 +166,24 @@
 		
 		function recessFunc(timeObject) {
 			var timeStr = padDigit(recess.get("minutes")) + ":" + padDigit(recess.get("seconds"));
-			breakDisplay.textContent =  timeStr;	
+			recessDisplay.textContent =  timeStr;	
 		}
 		
 		return 	{
 			toggleAnimation: toggleAnimation,
 			updateCountdown: countdownFunc,
 			updateTime: timeFunc,
-			updateBreak: recessFunc
+			updateRecess: recessFunc
 		}		
 	
 		
-	})(duration.work, duration.break);
+	})(romaDoro.work, romaDoro.recess);
+	
+	// initialize the display
 	
 	view.updateCountdown();
 	view.updateTime();	
-	view.updateBreak();						
+	view.updateRecess();						
 	
 })(window);
 

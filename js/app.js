@@ -4362,141 +4362,120 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 (function (global) {
 
-    var timerHasStarted = false;
-    var timer;
-
-    var roma = void 0,
-        siesta = void 0;
+    var time;
 
     var startBtn = document.querySelector('.start');
     var resetBtn = document.querySelector('.reset');
     var timeIncBtn = document.querySelector('.time-increment');
     var timeDecBtn = document.querySelector('.time-decrement');
-    var breakIncBtn = document.querySelector('.break-increment');
-    var breakDecBtn = document.querySelector('.break-decrement');
+    var recessIncBtn = document.querySelector('.recess-increment');
+    var recessDecBtn = document.querySelector('.recess-decrement');
 
     var alarm = document.querySelector('audio[src="audio/Annoying_Alarm.wav"]');
 
-    console.log(moment);
-
-    var duration = {
+    var romaDoro = {
+        working: true,
         work: moment.duration(25, 'minutes'),
-        break: moment.duration(5, 'minutes')
+        recess: moment.duration(5, 'minutes')
     };
 
-    function whichTimer() {
-        if (workTimer.started) {
-            return workTimer;
-        } else if (breakTimer.started) {
-            return breakTimer;
-        }
-    }
-
     // start & stop
-    function startStopTimer() {
-        if (!timerHasStarted) {
-            initTimer();
+    function startPauseTimer() {
+        if (!countdownTimer.started && !countdownTimer.isStopped()) {
+            initTimer(romaDoro.work);
+            countdownTimer.start();
         } else {
 
-            console.log(timer);
-            if (timer.stopped) {
-                timer.start();
+            if (countdownTimer.stopped) {
+                countdownTimer.start();
             } else {
-                timer.stop();
+                countdownTimer.stop();
             }
         }
     }
 
     // reset
     function resetTimer() {
-        workTimer.stop();
-        timerHasStarted = false;
-        roma = moment.duration(duration.work, 'minutes');
-        view.updateCountdown(duration.work);
-    }
-
-    function timerMax() {
-        if (duration.work._data.minutes + duration.break._data.minutes === 60) {
-            return true;
-        } else {
-            return false;
-        }
+        countdownTimer.stop();
+        countdownTimer.started = false;
+        countdownTimer.stopped = false;
+        alarm.pause();
+        alarm.currentTime = 0;
+        view.updateCountdown();
     }
 
     function timerIncrement(timerSelect) {
         if (timerMax()) {
             return;
         } else {
-            duration[timerSelect]._data.minutes += 1 || timerMax();
-            timerSelect === 'work' ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);
-            if (!timerHasStarted) {
-                view.updateCountdown(duration.work);
+            romaDoro[timerSelect]._data.minutes += 1 || timerMax();
+            timerSelect === 'work' ? view.updateTime(romaDoro[timerSelect]) : view.updateRecess(romaDoro[timerSelect]);
+            if (!countdownTimer.started) {
+                view.updateCountdown(romaDoro.work);
             }
         }
     }
 
     function timerDecrement(timerSelect) {
-        if (duration[timerSelect]._data.minutes < 2) {
+        if (romaDoro[timerSelect]._data.minutes < 2) {
             return;
         } else {
-            duration[timerSelect]._data.minutes -= 1;
-            timerSelect === 'work' ? view.updateTime(duration[timerSelect]) : view.updateBreak(duration[timerSelect]);
-            if (!timerHasStarted) {
-                view.updateCountdown(duration.work);
+            romaDoro[timerSelect]._data.minutes -= 1;
+            timerSelect === 'work' ? view.updateTime(romaDoro[timerSelect]) : view.updateRecess(romaDoro[timerSelect]);
+            if (!countdownTimer.started) {
+                view.updateCountdown(romaDoro.work);
             }
         }
     }
 
-    function initTimer() {
-        roma = moment.duration(duration.work._data.minutes, 'minutes');
-        siesta = moment.duration(duration.break._data.minutes, 'minutes');
-        timerHasStarted = true;
-        timer = workTimer;
-        timer.start();
+    // prevent combined work and recess times exceeding 60 minutes
+    function timerMax() {
+        if (romaDoro.work._data.minutes + romaDoro.recess._data.minutes === 60) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    var workTimer = moment.duration(1, "seconds").timer({
-        loop: true,
-        start: false
-    }, function () {
-        console.log(roma.get("minutes"));
-        if (roma._milliseconds === 60000) {
+    function timerUpdate() {
+        if (time._milliseconds === 60000) {
+            // last minute of countodwn display starts to flash
             view.toggleAnimation();
         }
-        if (roma._milliseconds === 0) {
+        if (time._milliseconds === 0) {
             alarm.play();
             view.toggleAnimation();
-            console.log('workTimer finished!!');
-            workTimer.clearTimer();
-            timer = breakTimer;
-            timer.start();
+            console.log(romaDoro.working ? "work" : "recess" + " time finished!!");
+            countdownTimer.stop();
+            if (romaDoro.working) {
+                romaDoro.working = !romaDoro.working;
+                initTimer(romaDoro.recess); // send recess duration to initTimer
+                countdownTimer.start();
+            } else {
+                romaDoro.working = !romaDoro.working;
+                countdownTimer.started = false;
+                countdownTimer.stopped = false;
+            }
         } else {
-            roma.subtract(1, 'second');
-            view.updateCountdown(roma);
+            time.subtract(1, 'second');
+            view.updateCountdown(time);
         }
-    });
+    }
 
-    var breakTimer = moment.duration(1, "seconds").timer({
+    function initTimer(whichCountdown) {
+        // create a new duration based on what duration has been sent to initTimer 
+        time = moment.duration(whichCountdown._data.minutes, 'minutes');
+    }
+
+    var countdownTimer = moment.duration(1, "seconds").timer({
         loop: true,
-        start: false
-    }, function () {
-        if (siesta._milliseconds === 60000) {
-            view.toggleAnimation();
-        }
-        if (siesta._milliseconds === 0) {
-            alarm.play();
-            view.toggleAnimation();
-            timerHasStarted = false;
-            breakTimer.clearTimer();
-        } else {
-            siesta.subtract(1, 'second');
-            view.updateCountdown(siesta);
-        }
-    });
+        start: false,
+        timer: "work"
+    }, timerUpdate);
 
     // Button Handlers
 
-    startBtn.addEventListener('click', startStopTimer);
+    startBtn.addEventListener('click', startPauseTimer);
 
     resetBtn.addEventListener('click', resetTimer);
 
@@ -4508,28 +4487,26 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var timerSelect = this.dataset.target;
         timerDecrement(timerSelect);
     });
-    breakIncBtn.addEventListener('click', function (e) {
+    recessIncBtn.addEventListener('click', function (e) {
         var timerSelect = this.dataset.target;
         timerIncrement(timerSelect);
     });
-    breakDecBtn.addEventListener('click', function (e) {
+    recessDecBtn.addEventListener('click', function (e) {
         var timerSelect = this.dataset.target; // this avoids issues with target/bubbling due to nested <i>
         timerDecrement(timerSelect);
     });
+
+    /// View Module
 
     var view = function viewModule(work, recess) {
 
         var countdown = document.querySelector('.countdown');
         var countdownPad = document.querySelector('.countdown-flex span:first-child');
         var timeDisplay = document.querySelector('.time');
-        var breakDisplay = document.querySelector('.break');
+        var recessDisplay = document.querySelector('.recess');
 
         function padDigit(num) {
-            if (num < 10) {
-                return "0" + num;
-            } else {
-                return num;
-            }
+            return num < 10 ? "0" + num : num;
         }
 
         function toggleAnimation(target) {
@@ -4550,20 +4527,22 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         function recessFunc(timeObject) {
             var timeStr = padDigit(recess.get("minutes")) + ":" + padDigit(recess.get("seconds"));
-            breakDisplay.textContent = timeStr;
+            recessDisplay.textContent = timeStr;
         }
 
         return {
             toggleAnimation: toggleAnimation,
             updateCountdown: countdownFunc,
             updateTime: timeFunc,
-            updateBreak: recessFunc
+            updateRecess: recessFunc
         };
-    }(duration.work, duration.break);
+    }(romaDoro.work, romaDoro.recess);
+
+    // initialize the display
 
     view.updateCountdown();
     view.updateTime();
-    view.updateBreak();
+    view.updateRecess();
 })(window);
 
 //# sourceMappingURL=app.js.map
